@@ -264,7 +264,7 @@ git clone https://github.com/ZHCOOL520/EchoMusicPlugins.git
 
 如果插件导致界面异常，可以在插件管理页启用「插件安全模式」、禁用或卸载对应插件。
 
-本插件源为社区非官方源，所有插件均由 ZHCOOL520 个人开发维护。如遇问题，请在 [GitHub Issues](https://github.com/ZHCOOL520/EchoMusicPlugins/issues) 反馈。
+本插件源为社区非官方源。如遇问题，请在 [GitHub Issues](https://github.com/ZHCOOL520/EchoMusicPlugins/issues) 反馈。
 
 ---
 
