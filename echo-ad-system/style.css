@@ -1,0 +1,522 @@
+/* =================================================================
+   EchoMusic 广告系统 v2.0 — 主题感知全局样式
+
+   设计原则：
+     - 所有颜色通过 --ad-* CSS 变量定义，自动适配宿主暗/亮主题
+     - 面板继承宿主背景色，不额外覆盖，保持与 EchoMusic 视觉一致
+     - 响应式断点（640/500/380px）渐进适配各窗口宽度
+   ================================================================= */
+
+/* =================================================================
+   CSS 变量：暗色模式（默认，EchoMusic 默认为暗色主题）
+   ================================================================= */
+:root {
+  --ad-panel-gap: 18px;
+  --ad-section-radius: 10px;
+  --ad-card-radius: 10px;
+
+  /* 表面与边框 */
+  --ad-surface: rgba(255,255,255,0.03);
+  --ad-surface-hover: rgba(255,255,255,0.06);
+  --ad-border: rgba(255,255,255,0.06);
+
+  /* 文字 */
+  --ad-text-secondary: rgba(255,255,255,0.45);
+  --ad-text-muted: rgba(255,255,255,0.3);
+  --ad-text-label: rgba(255,255,255,0.65);
+
+  /* 输入控件 */
+  --ad-input-bg: rgba(255,255,255,0.05);
+  --ad-input-border: rgba(255,255,255,0.1);
+  --ad-select-option-bg: #1a1a2e;
+
+  /* 强调色 */
+  --ad-accent: #e94560;
+  --ad-accent-soft: rgba(233,69,96,0.12);
+  --ad-success: #16c79a;
+
+  /* 滚动条 */
+  --ad-scrollbar-thumb: rgba(255,255,255,0.12);
+  --ad-scrollbar-thumb-hover: rgba(255,255,255,0.22);
+
+  /* 编辑卡片 */
+  --ad-editor-bg: rgba(255,255,255,0.02);
+  --ad-editor-border: rgba(255,255,255,0.04);
+
+  /* 关于区块 */
+  --ad-about-border: rgba(233,69,96,0.12);
+  --ad-about-bg: linear-gradient(135deg, rgba(233,69,96,0.04), rgba(22,199,154,0.04));
+  --ad-about-link-color: #e94560;
+  --ad-about-avatar-bg: linear-gradient(135deg, #e94560, #16c79a);
+
+  /* Bing 缩略图 */
+  --ad-bing-thumb-bg: rgba(255,255,255,0.04);
+  --ad-bing-thumb-border: rgba(255,255,255,0.05);
+}
+
+/* =================================================================
+   CSS 变量：亮色模式覆盖
+   触发条件：html 上存在 data-theme="light" 属性（EchoMusic 主题切换设置）
+   同时支持 class="light" 作为后备
+   ================================================================= */
+[data-theme="light"],
+.light {
+  --ad-surface: rgba(0,0,0,0.03);
+  --ad-surface-hover: rgba(0,0,0,0.05);
+  --ad-border: rgba(0,0,0,0.06);
+
+  --ad-text-secondary: rgba(0,0,0,0.45);
+  --ad-text-muted: rgba(0,0,0,0.3);
+  --ad-text-label: rgba(0,0,0,0.6);
+
+  --ad-input-bg: rgba(0,0,0,0.03);
+  --ad-input-border: rgba(0,0,0,0.1);
+  --ad-select-option-bg: #f5f5f5;
+
+  --ad-scrollbar-thumb: rgba(0,0,0,0.12);
+  --ad-scrollbar-thumb-hover: rgba(0,0,0,0.22);
+
+  --ad-editor-bg: rgba(0,0,0,0.02);
+  --ad-editor-border: rgba(0,0,0,0.04);
+
+  --ad-about-border: rgba(233,69,96,0.15);
+  --ad-about-bg: linear-gradient(135deg, rgba(233,69,96,0.03), rgba(22,199,154,0.03));
+
+  --ad-bing-thumb-bg: rgba(0,0,0,0.03);
+  --ad-bing-thumb-border: rgba(0,0,0,0.05);
+}
+
+
+/* =================================================================
+   PART 1: 广告层（AD LAYER）
+   全屏覆盖的广告卡片，始终使用深色设计（广告是沉浸式体验）
+   ================================================================= */
+
+#echo-ad-system-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 99999;
+  pointer-events: auto;
+}
+
+/* 遮罩层 — 模糊暗色背景 */
+.ad-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: ad-fade-in 0.3s ease-out;
+}
+
+.ad-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* 卡片 — CSS 变量支持自定义配色，深色为广告独有 */
+.ad-card {
+  position: relative;
+  width: min(480px, 85vw);
+  max-height: 80vh;
+  background: var(--ad-bg, #1a1a2e);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.6),
+              0 0 0 1px rgba(255,255,255,0.08),
+              inset 0 1px 0 rgba(255,255,255,0.1);
+  animation: ad-card-enter 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+.ad-splash .ad-card { width: min(560px, 92vw); border-radius: 24px; }
+.ad-playback .ad-card { width: min(420px, 82vw); border-radius: 16px; }
+
+.ad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px;
+}
+
+.ad-countdown-badge {
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 6px 14px;
+  font-variant-numeric: tabular-nums;
+}
+.ad-countdown-number { font-size: 20px; font-weight: 800; color: var(--ad-text,#fff); line-height: 1; }
+.ad-countdown-label { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1; margin-left: 1px; }
+
+.ad-skip-btn {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px; color: var(--ad-text,#fff);
+  font-size: 13px; padding: 6px 18px; cursor: pointer;
+  transition: all 0.2s ease; font-family: inherit;
+  animation: ad-fade-in 0.3s ease-out;
+}
+.ad-skip-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
+
+.ad-content {
+  padding: 8px 28px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+
+.ad-image-wrapper { width: 100%; border-radius: 12px; overflow: hidden; max-height: 240px; }
+.ad-image { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; }
+
+.ad-text-block { text-align: center; }
+.ad-title { font-size: 24px; font-weight: 800; color: var(--ad-text,#fff); margin: 0 0 6px; letter-spacing: -0.03em; line-height: 1.2; }
+.ad-subtitle { font-size: 14px; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.5; }
+
+.ad-cta-btn {
+  background: var(--ad-accent, #e94560); color: #fff; border: none;
+  border-radius: 14px; padding: 14px 36px; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s ease; font-family: inherit; letter-spacing: 0.03em;
+}
+.ad-cta-btn:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.35); }
+.ad-cta-btn:active { transform: translateY(0); }
+
+.ad-progress-track { height: 3px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.ad-progress-bar {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, var(--ad-accent,#e94560), rgba(255,255,255,0.4));
+  transform-origin: left;
+  animation: ad-progress-shrink linear forwards;
+}
+
+@keyframes ad-fade-in { from{opacity:0} to{opacity:1} }
+@keyframes ad-card-enter { from{opacity:0;transform:scale(0.9) translateY(24px)} to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes ad-progress-shrink { from{transform:scaleX(1)} to{transform:scaleX(0)} }
+
+
+/* =================================================================
+   PART 2: 设置面板（SETTINGS PANEL）
+
+   主题感知设计：
+     - 面板背景完全透明，继承宿主环境背景色
+     - 分组卡片用 --ad-surface + --ad-border 变量，自动适配主题
+     - 所有文字继承宿主 color，次级文字用 --ad-text-* 变量
+   ================================================================= */
+
+/* ----- 面板容器 -----
+   固定 height:75vh + overflow-y:auto 确保内容超长时可滚动
+   移除了 flex:1 1 auto，改用固定高度避免父容器行为不确定导致的滚动失效 */
+.ad-settings-panel {
+  position: relative;
+  height: 75vh;
+  max-height: 75vh;
+  padding: 20px;
+  width: 100%;
+  min-width: 280px;
+  max-width: 680px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ad-panel-gap, 18px);
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  /* 滚动条：Firefox + WebKit */
+  scrollbar-width: thin;
+  scrollbar-color: var(--ad-scrollbar-thumb) transparent;
+}
+
+.ad-settings-panel::-webkit-scrollbar { width: 6px; }
+.ad-settings-panel::-webkit-scrollbar-track { background: transparent; }
+.ad-settings-panel::-webkit-scrollbar-thumb { background: var(--ad-scrollbar-thumb); border-radius: 3px; }
+.ad-settings-panel::-webkit-scrollbar-thumb:hover { background: var(--ad-scrollbar-thumb-hover); }
+
+/* ----- 分组卡片 -----
+   半透明背景 + 边框，颜色由 --ad-surface / --ad-border 驱动
+   width:100% 防止 flex 子元素塌陷，overflow:visible 确保内部错误不隐藏 */
+.ad-setting-group {
+  background: var(--ad-surface);
+  border: 1px solid var(--ad-border);
+  border-radius: var(--ad-section-radius);
+  padding: 14px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+/* ----- 分组标题 ----- */
+.ad-setting-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ----- 表单行 -----
+   标签固定 + 控件推右 弹性布局：
+     - 行本身 flex-shrink:0 防止被父容器压缩导致垂直塌陷
+     - 标签 flex:0 0 auto，不伸缩，超长截断
+     - Switch/InputNumber 通过 JS inline margin-left:auto 推至右侧
+     - overflow:visible 替换 hidden，防止子元素被意外裁剪
+     - 所有子元素 min-width:0 允许收缩 */
+.ad-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+}
+
+/* 所有直接子元素：允许收缩，禁止溢出 */
+.ad-setting-row > * {
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+/* 左侧标签：固定弹性，不参与伸缩，超长省略 */
+.ad-setting-row > span:first-child {
+  flex: 0 0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+  min-width: 40px;
+  font-size: 13px;
+  color: var(--ad-text-label);
+}
+
+/* ----- 列模式行 ---- */
+.ad-setting-col {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+}
+.ad-setting-col > span:first-child { max-width: none; color: var(--ad-text-label); }
+.ad-setting-col > * { min-width: 0; }
+
+.ad-setting-row-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ad-text-label);
+}
+
+/* 行内辅助提示 */
+.ad-setting-hint {
+  font-size: 12px;
+  color: var(--ad-text-secondary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* ----- 下拉选择 ----- */
+.ad-select {
+  background: var(--ad-input-bg);
+  border: 1px solid var(--ad-input-border);
+  border-radius: 8px;
+  color: inherit;
+  font-size: 13px;
+  padding: 6px 10px;
+  font-family: inherit;
+  cursor: pointer;
+  max-width: 200px;
+}
+.ad-select option { background: var(--ad-select-option-bg); color: inherit; }
+
+/* ----- 广告编辑卡片 -----
+   嵌套在分组内的次级卡片，flex-shrink:0 防止被压缩 */
+.ad-editor-card {
+  background: var(--ad-editor-bg);
+  border: 1px solid var(--ad-editor-border);
+  border-radius: var(--ad-card-radius);
+  padding: 12px 14px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+/* 编辑器卡片内标签更紧凑 */
+.ad-editor-card .ad-setting-row > span:first-child {
+  max-width: 85px;
+  min-width: 30px;
+  font-size: 12px;
+}
+
+.ad-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 8px;
+}
+
+.ad-editor-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ad-text-muted);
+}
+
+/* ----- 音频路径选择行 ----- */
+.ad-audio-path-row {
+  display: flex; gap: 8px; align-items: center; min-width: 0;
+}
+.ad-audio-path-row input { flex: 1; min-width: 0; }
+.ad-audio-path-row button { flex-shrink: 0; white-space: nowrap; }
+
+/* ----- 自定义图片列表 ----- */
+.ad-custom-img-row {
+  display: flex; gap: 8px; align-items: center; min-width: 0;
+}
+.ad-custom-img-row input { flex: 1; min-width: 0; }
+.ad-custom-img-row button { flex-shrink: 0; }
+
+/* ----- 颜色配置行 -----
+   flex-wrap 允许窄屏时换行 */
+.ad-color-row {
+  display: flex; gap: 16px; flex-wrap: wrap;
+}
+.ad-color-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; cursor: pointer;
+  color: var(--ad-text-label);
+}
+.ad-color-item input[type="color"] {
+  width: 28px; height: 28px;
+  border: 2px solid var(--ad-input-border);
+  border-radius: 8px; cursor: pointer;
+  background: transparent; padding: 0;
+}
+.ad-color-item input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+.ad-color-item input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+/* ----- 操作按钮区 ----- */
+.ad-setting-actions {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; min-width: 0;
+}
+.ad-save-status {
+  font-size: 13px; color: var(--ad-success); font-weight: 500;
+}
+
+/* 测试按钮 */
+.ad-test-btns {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+
+
+/* =================================================================
+   PART 2（续）：Bing 壁纸 & 关于作者
+   ================================================================= */
+
+/* ----- Bing 壁纸网格 ----- */
+.ad-bing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+.ad-bing-thumb {
+  border-radius: 10px; overflow: hidden;
+  background: var(--ad-bing-thumb-bg);
+  border: 1px solid var(--ad-bing-thumb-border);
+  transition: transform 0.2s ease;
+}
+.ad-bing-thumb:hover { transform: scale(1.03); }
+.ad-bing-thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.ad-bing-info { padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; }
+.ad-bing-title { font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ad-bing-date { font-size: 11px; color: var(--ad-text-muted); }
+
+/* ----- 关于作者 ----- */
+.ad-about {
+  border-color: var(--ad-about-border);
+  background: var(--ad-about-bg);
+}
+.ad-about-content {
+  display: flex; align-items: center; gap: 16px;
+  min-width: 0; flex-wrap: wrap;
+}
+.ad-about-avatar {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--ad-about-avatar-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+.ad-about-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ad-about-name { font-size: 17px; font-weight: 700; }
+.ad-about-desc { font-size: 13px; color: var(--ad-text-secondary); }
+.ad-about-link {
+  font-size: 13px; color: var(--ad-about-link-color);
+  text-decoration: none; transition: opacity 0.2s;
+}
+.ad-about-link:hover { opacity: 0.8; }
+.ad-about-version {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--ad-text-muted); margin-top: 4px;
+}
+.ad-about-sep { opacity: 0.5; }
+
+
+/* =================================================================
+   PART 3: 响应式断点
+   三级渐进收窄（640 / 500 / 380px），保证各宽度可用
+   ================================================================= */
+
+@media (max-width: 640px) {
+  .ad-settings-panel { padding: 14px; gap: 14px; }
+  .ad-setting-group { padding: 12px 14px; gap: 10px; border-radius: 10px; }
+  .ad-setting-row { gap: 10px; }
+  .ad-setting-row > span:first-child { max-width: 100px; min-width: 35px; font-size: 12px; }
+  .ad-editor-card { padding: 10px 10px; gap: 6px; }
+  .ad-editor-card .ad-setting-row > span:first-child { max-width: 75px; min-width: 28px; font-size: 12px; }
+  .ad-card { width: 94vw !important; border-radius: 16px !important; }
+  .ad-title { font-size: 18px; }
+  .ad-content { padding: 8px 16px 18px; }
+  .ad-image-wrapper { max-height: 160px; }
+  .ad-bing-grid { grid-template-columns: repeat(2,1fr); }
+  .ad-color-row { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 500px) {
+  .ad-settings-panel { padding: 10px; gap: 12px; }
+  .ad-setting-group { padding: 10px 10px; gap: 8px; border-radius: 8px; }
+  .ad-setting-row { gap: 8px; }
+  .ad-setting-row > span:first-child { max-width: 80px; min-width: 30px; font-size: 12px; }
+  .ad-select { font-size: 12px; padding: 5px 8px; }
+  .ad-editor-card { padding: 8px 8px; gap: 6px; }
+  .ad-editor-card .ad-setting-row > span:first-child { max-width: 60px; min-width: 24px; font-size: 11px; }
+  .ad-editor-card .ad-setting-row { gap: 6px; }
+  .ad-bing-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+}
+
+@media (max-width: 380px) {
+  .ad-settings-panel { padding: 6px; gap: 8px; }
+  .ad-setting-group { padding: 8px 8px; gap: 6px; border-radius: 6px; }
+  .ad-setting-row { gap: 6px; }
+  .ad-setting-row > span:first-child { max-width: 60px; min-width: 22px; font-size: 11px; }
+  .ad-select { font-size: 11px; padding: 4px 6px; }
+  .ad-editor-card { padding: 6px 6px; gap: 4px; }
+  .ad-editor-card .ad-setting-row > span:first-child { max-width: 45px; min-width: 20px; font-size: 10px; }
+  .ad-editor-card .ad-setting-row { gap: 4px; }
+  .ad-bing-grid { grid-template-columns: 1fr; }
+  .ad-audio-path-row { gap: 4px; }
+  .ad-test-btns { flex-direction: column; gap: 6px; }
+}

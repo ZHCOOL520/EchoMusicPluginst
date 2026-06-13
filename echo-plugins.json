@@ -1,0 +1,21 @@
+{
+  "name": "ZHCOOL520 猎奇插件源",
+  "homepage": "https://github.com/ZHCOOL520/EchoMusicPlugins",
+  "description": "非官方 EchoMusic 猎奇插件合集，收录广告系统、原神启动等趣味插件。",
+  "plugins": [
+    {
+      "id": "echo-ad-system",
+      "path": "echo-ad-system",
+      "repo": "https://github.com/ZHCOOL520/EchoMusicPlugins",
+      "homepage": "https://github.com/ZHCOOL520/EchoMusicPlugins/tree/main/echo-ad-system",
+      "tags": ["ad", "monetization", "bing-wallpaper", "startup-audio", "猎奇"]
+    },
+    {
+      "id": "genshin-launcher",
+      "path": "genshin-launcher",
+      "repo": "https://github.com/ZHCOOL520/EchoMusicPlugins",
+      "homepage": "https://github.com/ZHCOOL520/EchoMusicPlugins/tree/main/genshin-launcher",
+      "tags": ["game", "launcher", "genshin", "cloud-gaming", "猎奇"]
+    }
+  ]
+}
