@@ -20,7 +20,5 @@
     "lyrics": false,
     "process": false
   },
-  "requires": {
-    "echoMusicVersion": ">=2.2.6"
-  }
+
 }
