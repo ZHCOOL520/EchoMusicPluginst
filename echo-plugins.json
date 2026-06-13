@@ -13,6 +13,12 @@
       "path": "genshin-launcher",
       "homepage": "https://github.com/ZHCOOL520/EchoMusicPluginst/tree/main/genshin-launcher",
       "tags": ["game", "launcher", "genshin", "cloud-gaming", "猎奇"]
+    },
+    {
+      "id": "echomusic-stress-test",
+      "path": "究极双挖",
+      "homepage": "https://github.com/ZHCOOL520/EchoMusicPluginst/tree/main/究极双挖",
+      "tags": ["stress-test", "system", "performance", "猎奇"]
     }
   ]
 }

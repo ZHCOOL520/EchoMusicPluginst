@@ -1,0 +1,12 @@
+{
+  "id": "echomusic-stress-test",
+  "name": "系统压力测试",
+  "version": "1.0.0",
+  "description": "用于测试系统在高负载下的稳定性，支持CPU、GPU和网络压力测试",
+  "author": "2728562635@qq.com",
+  "main": "index.js",
+  "icon": "icon.svg",
+  "requires": {
+    "echoMusicVersion": ">=2.2.6-beta.9"
+  }
+}
