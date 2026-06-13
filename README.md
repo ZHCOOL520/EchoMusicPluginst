@@ -215,7 +215,7 @@ git clone https://github.com/ZHCOOL520/EchoMusicPlugins.git
 {
   "id": "echo-ad-system",
   "name": "广告系统",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "开屏广告 + 播放中插播广告 + 启动音效…",
   "author": "ZHCOOL520",
   "icon": "icon.svg",
