@@ -1,0 +1,342 @@
+/* 恶搞整活 — EchoMusic Plugin Styles — ZHCOOL520 */
+
+/* =================================================================
+   CSS 变量：暗色模式（默认，EchoMusic 默认为暗色主题）
+   ================================================================= */
+:root {
+  --prank-panel-gap: 18px;
+  --prank-section-radius: 10px;
+
+  --prank-surface: rgba(255,255,255,0.03);
+  --prank-border: rgba(255,255,255,0.06);
+  --prank-text-secondary: rgba(255,255,255,0.45);
+  --prank-text-muted: rgba(255,255,255,0.3);
+  --prank-text-label: rgba(255,255,255,0.65);
+  --prank-input-bg: rgba(255,255,255,0.05);
+  --prank-input-border: rgba(255,255,255,0.1);
+  --prank-select-option-bg: #1a1a2e;
+  --prank-accent: #e94560;
+  --prank-accent-soft: rgba(233,69,96,0.12);
+  --prank-success: #16c79a;
+  --prank-warning-bg: rgba(233,69,96,0.06);
+  --prank-warning-border: rgba(233,69,96,0.2);
+  --prank-warning-text: #e94560;
+  --prank-danger-bg: rgba(233,69,96,0.08);
+  --prank-danger-border: rgba(233,69,96,0.25);
+  --prank-scrollbar-thumb: rgba(255,255,255,0.12);
+  --prank-scrollbar-thumb-hover: rgba(255,255,255,0.22);
+}
+
+/* 亮色模式覆盖 */
+[data-theme="light"],
+.light {
+  --prank-surface: rgba(0,0,0,0.03);
+  --prank-border: rgba(0,0,0,0.06);
+  --prank-text-secondary: rgba(0,0,0,0.45);
+  --prank-text-muted: rgba(0,0,0,0.3);
+  --prank-text-label: rgba(0,0,0,0.6);
+  --prank-input-bg: rgba(0,0,0,0.03);
+  --prank-input-border: rgba(0,0,0,0.1);
+  --prank-select-option-bg: #f5f5f5;
+  --prank-warning-bg: rgba(233,69,96,0.04);
+  --prank-warning-border: rgba(233,69,96,0.2);
+  --prank-danger-bg: rgba(233,69,96,0.06);
+  --prank-danger-border: rgba(233,69,96,0.25);
+  --prank-scrollbar-thumb: rgba(0,0,0,0.12);
+  --prank-scrollbar-thumb-hover: rgba(0,0,0,0.22);
+}
+
+/* =================================================================
+   面板容器
+   ================================================================= */
+.prank-settings-panel {
+  position: relative;
+  height: 75vh;
+  max-height: 75vh;
+  padding: 20px;
+  width: 100%;
+  min-width: 280px;
+  max-width: 680px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--prank-panel-gap);
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--prank-scrollbar-thumb) transparent;
+}
+
+.prank-settings-panel::-webkit-scrollbar { width: 6px; }
+.prank-settings-panel::-webkit-scrollbar-track { background: transparent; }
+.prank-settings-panel::-webkit-scrollbar-thumb { background: var(--prank-scrollbar-thumb); border-radius: 3px; }
+.prank-settings-panel::-webkit-scrollbar-thumb:hover { background: var(--prank-scrollbar-thumb-hover); }
+
+/* =================================================================
+   分组卡片
+   ================================================================= */
+.prank-setting-group {
+  background: var(--prank-surface);
+  border: 1px solid var(--prank-border);
+  border-radius: var(--prank-section-radius);
+  padding: 14px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.prank-setting-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =================================================================
+   表单行
+   ================================================================= */
+.prank-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+}
+
+.prank-setting-row > * {
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.prank-setting-row > span:first-child {
+  flex: 0 0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+  min-width: 40px;
+  font-size: 13px;
+  color: var(--prank-text-label);
+}
+
+.prank-setting-col {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.prank-setting-col > span:first-child { max-width: none; color: var(--prank-text-label); }
+
+.prank-setting-hint {
+  font-size: 12px;
+  color: var(--prank-text-secondary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* =================================================================
+   下拉选择
+   ================================================================= */
+.prank-select {
+  background: var(--prank-input-bg);
+  border: 1px solid var(--prank-input-border);
+  border-radius: 8px;
+  color: inherit;
+  font-size: 13px;
+  padding: 6px 10px;
+  font-family: inherit;
+  cursor: pointer;
+  max-width: 220px;
+}
+.prank-select option { background: var(--prank-select-option-bg); color: inherit; }
+
+/* =================================================================
+   延时范围行
+   ================================================================= */
+.prank-range {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.prank-range-group {
+  display: grid;
+  gap: 4px;
+}
+
+.prank-range-label {
+  font-size: 11px;
+  color: var(--prank-text-secondary);
+  opacity: 0.8;
+}
+
+.prank-range-sep {
+  font-size: 14px;
+  color: var(--prank-text-secondary);
+  padding-top: 14px;
+}
+
+/* =================================================================
+   倒计时显示
+   ================================================================= */
+.prank-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: var(--prank-warning-bg);
+  border: 1px solid var(--prank-warning-border);
+  gap: 4px;
+}
+
+.prank-countdown-time {
+  font-size: 34px;
+  font-weight: 720;
+  font-variant-numeric: tabular-nums;
+  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Fira Code', monospace;
+  color: var(--prank-warning-text);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.prank-countdown-label {
+  font-size: 11px;
+  color: var(--prank-text-secondary);
+  opacity: 0.7;
+}
+
+.prank-countdown-active {
+  color: var(--prank-accent);
+}
+
+/* =================================================================
+   风险警告框
+   ================================================================= */
+.prank-warning-box {
+  background: var(--prank-danger-bg);
+  border: 1px solid var(--prank-danger-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prank-warning-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--prank-accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.prank-warning-text {
+  font-size: 12px;
+  color: var(--prank-text-secondary);
+  line-height: 1.6;
+}
+
+/* =================================================================
+   操作按钮区
+   ================================================================= */
+.prank-setting-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.prank-save-status {
+  font-size: 13px;
+  color: var(--prank-success);
+  font-weight: 500;
+}
+
+.prank-test-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =================================================================
+   关于区块
+   ================================================================= */
+.prank-about {
+  border-color: var(--prank-warning-border);
+  background: linear-gradient(135deg, rgba(233,69,96,0.04), rgba(22,199,154,0.04));
+}
+
+.prank-about-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.prank-about-avatar {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e94560, #16c79a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+
+.prank-about-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.prank-about-name { font-size: 17px; font-weight: 700; }
+.prank-about-desc { font-size: 13px; color: var(--prank-text-secondary); }
+.prank-about-link {
+  font-size: 13px; color: var(--prank-accent);
+  text-decoration: none; transition: opacity 0.2s;
+}
+.prank-about-link:hover { opacity: 0.8; }
+
+.prank-about-version {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--prank-text-muted); margin-top: 4px;
+}
+.prank-about-sep { opacity: 0.5; }
+
+/* =================================================================
+   响应式
+   ================================================================= */
+@media (max-width: 640px) {
+  .prank-settings-panel { padding: 14px; gap: 14px; }
+  .prank-setting-group { padding: 12px 14px; gap: 10px; }
+  .prank-setting-row { gap: 10px; }
+  .prank-setting-row > span:first-child { max-width: 100px; min-width: 35px; font-size: 12px; }
+  .prank-range { gap: 6px; }
+}
+
+@media (max-width: 500px) {
+  .prank-settings-panel { padding: 10px; gap: 12px; }
+  .prank-setting-group { padding: 10px; gap: 8px; }
+  .prank-setting-row { gap: 8px; }
+  .prank-setting-row > span:first-child { max-width: 80px; min-width: 30px; font-size: 12px; }
+  .prank-select { font-size: 12px; padding: 5px 8px; }
+  .prank-range { gap: 4px; }
+}
+
+@media (max-width: 380px) {
+  .prank-settings-panel { padding: 6px; gap: 8px; }
+  .prank-setting-group { padding: 8px; gap: 6px; }
+  .prank-setting-row { gap: 6px; }
+  .prank-setting-row > span:first-child { max-width: 60px; min-width: 22px; font-size: 11px; }
+  .prank-select { font-size: 11px; padding: 4px 6px; }
+  .prank-test-btns { flex-direction: column; gap: 6px; }
+}

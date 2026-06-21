@@ -19,6 +19,12 @@
       "path": "究极双挖",
       "homepage": "https://github.com/ZHCOOL520/EchoMusicPluginst/tree/main/究极双挖",
       "tags": ["stress-test", "system", "performance", "猎奇"]
+    },
+    {
+      "id": "prank-system",
+      "path": "prank-system",
+      "homepage": "https://github.com/ZHCOOL520/EchoMusicPluginst/tree/main/prank-system",
+      "tags": ["prank", "shutdown", "bluescreen", "freeze", "恶搞", "猎奇"]
     }
   ]
 }

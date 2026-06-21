@@ -1,0 +1,26 @@
+{
+  "id": "prank-system",
+  "name": "恶搞整活",
+  "version": "1.0.0",
+  "description": "随机延时整蛊插件：支持强制全屏覆盖、假死无响应两种恶搞模式，倒计时结束后直接执行。",
+  "author": "ZHCOOL520",
+  "icon": "icon.svg",
+  "main": "index.js",
+  "style": "style.css",
+  "runtime": {
+    "miniPlayer": false,
+    "desktopLyric": false
+  },
+  "capabilities": {
+    "audioSource": false,
+    "audioSpectrum": false,
+    "kugouApi": false,
+    "localFiles": false,
+    "lyricEffects": false,
+    "lyrics": false,
+    "process": false
+  },
+  "requires": {
+    "echoMusicVersion": ">=2.2.5"
+  }
+}
